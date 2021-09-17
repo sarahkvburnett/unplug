@@ -1,6 +1,7 @@
 export const recordFindUrl = '/api/record/find';
 export const recordResetUrl = '/api/record/{record}/reset';
 export const recordCompleteUrl = '/api/record/{record}/complete';
+export const recordSubmitUrl = '/api/record/{record}/submit';
 
 export const floorResetUrl = '/api/record/{record}/floor/{id}/reset';
 export const floorCompleteUrl = '/api/record/{record}/floor/{id}/complete'

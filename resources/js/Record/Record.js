@@ -27,6 +27,11 @@ export class Record {
     }
 
     display(){
+        document.querySelector('#welcome').classList.add('none');
+        document.querySelector('#startButton').classList.add('hide');
+        document.querySelector('#finishButton').classList.remove('hide');
+        document.querySelector('#recordTileWrapper').classList.remove('none');
+        document.querySelector('#title').innerText = 'My Checks';
         this.displayFloors(this);
     }
 
@@ -38,26 +43,41 @@ export class Record {
         floors.display();
     }
 
-    displayRooms(key = null){
-        if (key) this.currentFloor = this.record.checks.floors[key];
+    displayRooms(index = null){
+        if (index) this.currentFloor = parseInt(index);
         this.currentLevel = 'rooms';
         this.currentRoom = null;
         const rooms = new Rooms(this);
         rooms.display();
     }
 
-    displayChecks(key){
-        this.currentRoom = this.currentFloor.rooms[key];
+    displayChecks(index){
+        this.currentRoom = parseInt(index);
         this.currentLevel = 'checks';
         const checks = new Checks(this);
         checks.display();
     }
 
-    clear(){
+    //Display new set of tiles
+    reset(){
+        //Empty tiles
         const parent = document.querySelector('#recordTileWrapper');
         while (parent.firstChild) {
             parent.firstChild.remove();
         }
+        //Reset back button
+        document.querySelector('#backButtonWrapper').innerHTML = '<button id="backButton"><i class="fa fa-arrow-left"></i></button>';
+    }
+
+    //Remove record
+    clear(){
+        this.reset();
+        document.querySelector('#startButton').classList.remove('hide');
+        document.querySelector('#finishButton').classList.add('hide');
+        document.querySelector('#backButtonWrapper').innerHTML = '';
+        document.querySelector('#welcome').classList.remove('none');
+        document.querySelector('#recordTileWrapper').classList.add('none');
+        document.querySelector('#title').innerText = '';
     }
 
 }

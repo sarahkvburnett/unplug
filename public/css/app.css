@@ -1,7 +1,138 @@
+@import url(https://fonts.googleapis.com/css2?family=Urbanist&display=swap);
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: "Urbanist", sans-serif;
+  font-size: 18px;
+}
+
+.none {
+  visibility: hidden;
+  height: 0 !important;
+  width: 0 !important;
+}
+
+.hide {
+  visibility: hidden;
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+header {
+  display: flex;
+  padding: 1em;
+  justify-content: space-between;
+  align-items: center;
+  height: 10%;
+  opacity: 0.5;
+}
+header #title {
+  font-weight: bold;
+}
+header i.fa {
+  font-size: 1.2rem;
+}
+
+main {
+  height: 80%;
+}
+
+footer {
+  padding: 0 1rem;
+  height: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+button {
+  border: none;
+  background: transparent;
+  padding: 0.5em;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+button#startButton, button#finishButton {
+  position: absolute;
+  right: 1rem;
+}
+button#finishButton {
+  color: #33a532;
+}
+
+input[type=checkbox] {
+  transform: scale(2);
+}
+
+#message.success {
+  background: #33a532;
+}
+#message.error {
+  background: #B81D13;
+}
+
+#welcome {
+  height: 100%;
+  width: 100%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#recordTileWrapper {
+  padding: 1em;
+  height: 100%;
+  width: 100%;
+}
+
+#recordTileWrapper > div {
+  padding: 0 1em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  margin: 1.5rem 0;
+  border: 1px solid #f1f1f1;
+  box-shadow: -2px 6px 7px 0px #afafaf;
+}
+#recordTileWrapper > div label {
+  padding: 1.5rem 0;
+  display: grid;
+  align-items: center;
+  grid-template-columns: auto 1fr;
+  grid-column-gap: 1rem;
+  width: 100%;
+}
+
+.finishModal {
+  position: absolute;
+  z-index: 1000;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  padding: 1rem;
+  background: #fff;
+  box-shadow: -2px 6px 7px 0px #afafaf;
+}
+.finishModal p {
+  padding: 0.5rem;
+}
+.finishModal div {
+  padding-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+.finishModal div .finishBtn {
+  color: #33a532;
+}
+.finishModal div .cancelBtn {
+  color: #B81D13;
 }
 

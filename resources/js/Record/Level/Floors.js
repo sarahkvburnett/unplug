@@ -6,20 +6,22 @@ export class Floors extends Level {
     tileClass = 'tileFloor';
 
     displayTiles(){
+        const icon = ['fa-sun', 'fa-moon'];
         const text = ['Downstairs', 'Upstairs'];
-        this.record.floors.forEach((floor, index) => this.displayTile(text[index], index, this.isFloorComplete(floor)));
+        this.record.floors.forEach((floor, index) => this.displayTile(icon[index], text[index], index, index, this.isFloorComplete(floor)));
     }
 
-    displayTile(text, key, checked){
-        super.displayTile(this.tileClass, text, key, checked);
+    displayTile(icon, text, index, key, checked){
+        super.displayTile(this.tileClass, icon, text, index, key, checked);
     }
 
     handleTileLabelClick(e){
-        this.record.displayRooms(e.target.dataset.key);
+        console.log(e);
+        this.record.displayRooms(e.target.dataset.index);
     }
 
     handleBackButtonClick() {
-        super.record.clear();
+        this.record.clear();
     }
 
     addTileEvents() {

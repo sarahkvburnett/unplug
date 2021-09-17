@@ -53,4 +53,10 @@ class RecordController extends Controller
         return response()->json($record->toArray());
     }
 
+    public function submit(Record $record): JsonResponse {
+        $record->status = 'Complete';
+        $record->save();
+        return response()->json($record->toArray());
+    }
+
 }

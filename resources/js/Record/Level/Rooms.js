@@ -6,15 +6,16 @@ export class Rooms extends Level {
     tileClass = 'tileRoom'
 
     displayTiles(){
-        this.record.currentFloor.rooms.forEach((room, index) => this.displayTile(room.details.name, index, this.isRoomComplete(room)));
+        console.log(this.record);
+        this.record.floors[this.record.currentFloor].rooms.forEach((room, index) => this.displayTile(room.details.icon, room.details.name, index, room.details.id, this.isRoomComplete(room)));
     }
 
-    displayTile(text, key, checked){
-        super.displayTile(this.tileClass, text, key, checked);
+    displayTile(icon, text, index, key, checked){
+        super.displayTile(this.tileClass, icon, text, index, key, checked);
     }
 
     handleTileLabelClick(e){
-        this.record.displayChecks(e.target.dataset.key);
+        this.record.displayChecks(e.target.dataset.index);
     }
 
     handleBackButtonClick(e){

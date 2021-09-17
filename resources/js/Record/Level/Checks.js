@@ -6,11 +6,11 @@ export class Checks extends Level {
     tileClass = 'tileCheck'
 
     displayTiles(){
-        this.record.currentRoom.checks.forEach((check, index) => this.displayTile(check.label, index, check.value == "1"));
+        this.record.floors[this.record.currentFloor].rooms[this.record.currentRoom].checks.forEach((check, index) => this.displayTile(check.category.icon, check.label, index, check.id, check.value == "1"));
     }
 
-    displayTile(text, key, checked){
-        super.displayTile(this.tileClass, text, key, checked);
+    displayTile(icon, text, index, key, checked){
+        super.displayTile(this.tileClass, icon, text, index, key, checked);
     }
 
     handleTileLabelClick(e){

@@ -24,7 +24,10 @@ Route::get('record/{record}/reset', 'RecordController@reset');
 Route::post('record/{record}/reset', 'RecordController@reset');
 Route::get('record/{record}/complete', 'RecordController@complete');
 Route::post('record/{record}/complete', 'RecordController@complete');
+Route::get('record/{record}/submit', 'RecordController@submit');
+Route::post('record/{record}/submit', 'RecordController@submit');
 
+Route::get('record/{record}/floor/{id}/reset', 'RecordFloorController@reset');
 Route::post('record/{record}/floor/{id}/reset', 'RecordFloorController@reset');
 Route::post('record/{record}/floor/{id}/complete', 'RecordFloorController@complete');
 

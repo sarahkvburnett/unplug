@@ -48,6 +48,8 @@ class Record extends Model
             $checks['checks']['floors'][] = $newFloor;
         }
 
+        $checks['checks']['floors'] = array_reverse( $checks['checks']['floors']);
+
         return array_merge($this->attributesToArray(),$checks);
     }
 

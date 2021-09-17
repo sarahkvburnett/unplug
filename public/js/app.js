@@ -1856,7 +1856,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Level": () => (/* binding */ Level)
 /* harmony export */ });
-/* harmony import */ var _Record__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Record */ "./resources/js/Record/Record.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Record__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Record */ "./resources/js/Record/Record.js");
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../api */ "./resources/js/api.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -1864,6 +1873,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 var Level = /*#__PURE__*/function () {
@@ -1878,7 +1888,7 @@ var Level = /*#__PURE__*/function () {
   _createClass(Level, [{
     key: "display",
     value: function display() {
-      this.record.clear();
+      this.record.reset();
       this.displayTiles();
       this.addTileEvents();
     }
@@ -1888,15 +1898,14 @@ var Level = /*#__PURE__*/function () {
     }
   }, {
     key: "displayTile",
-    value: function displayTile(tileClass, text, key, checked) {
-      console.log(checked);
+    value: function displayTile(tileClass, icon, text, index, key, checked) {
       var template = document.querySelector('#recordTileTemplate');
       var tile = template.content.cloneNode(true);
       var div = tile.querySelector("div");
       var label = tile.querySelector("label");
       var checkbox = tile.querySelector("input[type=checkbox]");
-      label.innerText = text;
-      label.dataset.key = key;
+      label.innerHTML = "<i class=\"fa ".concat(icon, "\"></i> ").concat(text);
+      label.dataset.index = index;
       checkbox.dataset.key = key;
       checkbox.checked = checked;
       div.className = tileClass;
@@ -1915,8 +1924,8 @@ var Level = /*#__PURE__*/function () {
       document.querySelectorAll(tileCheckboxSelector).forEach(function (checkbox) {
         return checkbox.addEventListener('change', _this.handleTileCheckboxClick.bind(_this));
       });
-      document.querySelector('#backButton').removeEventListener('click', this.handleBackButtonClick.bind(this));
       document.querySelector('#backButton').addEventListener('click', this.handleBackButtonClick.bind(this));
+      document.querySelector('#finishButton').addEventListener('click', this.handleFinishButtonClick.bind(this));
     }
   }, {
     key: "handleTileLabelClick",
@@ -1924,20 +1933,97 @@ var Level = /*#__PURE__*/function () {
     }
   }, {
     key: "handleTileCheckboxClick",
-    value: function handleTileCheckboxClick(e) {
-      var _this2 = this;
+    value: function () {
+      var _handleTileCheckboxClick = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(e) {
+        var checkbox, id, url, _yield$axios$post, data;
 
-      var checkbox = e.target;
-      var id = e.target.dataset.key;
-      var url = checkbox.checked ? this.getCompleteUrl(id) : this.getResetUrl(id);
-      axios.post(url).then(function (data) {
-        return _this2.record = new _Record__WEBPACK_IMPORTED_MODULE_0__.Record(data.data);
-      });
-    }
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                checkbox = e.target;
+                id = e.target.dataset.key;
+                url = checkbox.checked ? this.getCompleteUrl(id) : this.getResetUrl(id);
+                _context.next = 5;
+                return axios.post(url);
+
+              case 5:
+                _yield$axios$post = _context.sent;
+                data = _yield$axios$post.data;
+                this.record.load(data);
+
+              case 8:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function handleTileCheckboxClick(_x) {
+        return _handleTileCheckboxClick.apply(this, arguments);
+      }
+
+      return handleTileCheckboxClick;
+    }()
   }, {
     key: "handleBackButtonClick",
     value: function handleBackButtonClick() {// Extend method for the relevant callback at each level
     }
+  }, {
+    key: "handleFinishButtonClick",
+    value: function () {
+      var _handleFinishButtonClick = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        var _this2 = this;
+
+        var modal;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                modal = document.querySelector('.finishModal');
+                modal.classList.remove('hide');
+                modal.querySelector('.cancelBtn').addEventListener('click', function () {
+                  return modal.classList.add('hide');
+                });
+                modal.querySelector('.finishBtn').addEventListener('click', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+                  var url;
+                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+                    while (1) {
+                      switch (_context2.prev = _context2.next) {
+                        case 0:
+                          url = _api__WEBPACK_IMPORTED_MODULE_2__.recordSubmitUrl.replace('{record}', _this2.record.record.id);
+                          _context2.next = 3;
+                          return axios.post(url);
+
+                        case 3:
+                          _this2.record.clear();
+
+                          modal.classList.add('hide');
+                          document.querySelector('#startButton').innerHTML('Start checks <i class="fa fa-arrow-right"></i><');
+
+                        case 6:
+                        case "end":
+                          return _context2.stop();
+                      }
+                    }
+                  }, _callee2);
+                })));
+
+              case 4:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }));
+
+      function handleFinishButtonClick() {
+        return _handleFinishButtonClick.apply(this, arguments);
+      }
+
+      return handleFinishButtonClick;
+    }()
   }, {
     key: "getCompleteUrl",
     value: function getCompleteUrl(url, id) {
@@ -2024,14 +2110,14 @@ var Checks = /*#__PURE__*/function (_Level) {
     value: function displayTiles() {
       var _this2 = this;
 
-      this.record.currentRoom.checks.forEach(function (check, index) {
-        return _this2.displayTile(check.label, index, check.value == "1");
+      this.record.floors[this.record.currentFloor].rooms[this.record.currentRoom].checks.forEach(function (check, index) {
+        return _this2.displayTile(check.category.icon, check.label, index, check.id, check.value == "1");
       });
     }
   }, {
     key: "displayTile",
-    value: function displayTile(text, key, checked) {
-      _get(_getPrototypeOf(Checks.prototype), "displayTile", this).call(this, this.tileClass, text, key, checked);
+    value: function displayTile(icon, text, index, key, checked) {
+      _get(_getPrototypeOf(Checks.prototype), "displayTile", this).call(this, this.tileClass, icon, text, index, key, checked);
     }
   }, {
     key: "handleTileLabelClick",
@@ -2134,25 +2220,27 @@ var Floors = /*#__PURE__*/function (_Level) {
     value: function displayTiles() {
       var _this2 = this;
 
+      var icon = ['fa-sun', 'fa-moon'];
       var text = ['Downstairs', 'Upstairs'];
       this.record.floors.forEach(function (floor, index) {
-        return _this2.displayTile(text[index], index, _this2.isFloorComplete(floor));
+        return _this2.displayTile(icon[index], text[index], index, index, _this2.isFloorComplete(floor));
       });
     }
   }, {
     key: "displayTile",
-    value: function displayTile(text, key, checked) {
-      _get(_getPrototypeOf(Floors.prototype), "displayTile", this).call(this, this.tileClass, text, key, checked);
+    value: function displayTile(icon, text, index, key, checked) {
+      _get(_getPrototypeOf(Floors.prototype), "displayTile", this).call(this, this.tileClass, icon, text, index, key, checked);
     }
   }, {
     key: "handleTileLabelClick",
     value: function handleTileLabelClick(e) {
-      this.record.displayRooms(e.target.dataset.key);
+      console.log(e);
+      this.record.displayRooms(e.target.dataset.index);
     }
   }, {
     key: "handleBackButtonClick",
     value: function handleBackButtonClick() {
-      _get(_getPrototypeOf(Floors.prototype), "record", this).clear();
+      this.record.clear();
     }
   }, {
     key: "addTileEvents",
@@ -2256,19 +2344,20 @@ var Rooms = /*#__PURE__*/function (_Level) {
     value: function displayTiles() {
       var _this2 = this;
 
-      this.record.currentFloor.rooms.forEach(function (room, index) {
-        return _this2.displayTile(room.details.name, index, _this2.isRoomComplete(room));
+      console.log(this.record);
+      this.record.floors[this.record.currentFloor].rooms.forEach(function (room, index) {
+        return _this2.displayTile(room.details.icon, room.details.name, index, room.details.id, _this2.isRoomComplete(room));
       });
     }
   }, {
     key: "displayTile",
-    value: function displayTile(text, key, checked) {
-      _get(_getPrototypeOf(Rooms.prototype), "displayTile", this).call(this, this.tileClass, text, key, checked);
+    value: function displayTile(icon, text, index, key, checked) {
+      _get(_getPrototypeOf(Rooms.prototype), "displayTile", this).call(this, this.tileClass, icon, text, index, key, checked);
     }
   }, {
     key: "handleTileLabelClick",
     value: function handleTileLabelClick(e) {
-      this.record.displayChecks(e.target.dataset.key);
+      this.record.displayChecks(e.target.dataset.index);
     }
   }, {
     key: "handleBackButtonClick",
@@ -2401,6 +2490,11 @@ var Record = /*#__PURE__*/function () {
   }, {
     key: "display",
     value: function display() {
+      document.querySelector('#welcome').classList.add('none');
+      document.querySelector('#startButton').classList.add('hide');
+      document.querySelector('#finishButton').classList.remove('hide');
+      document.querySelector('#recordTileWrapper').classList.remove('none');
+      document.querySelector('#title').innerText = 'My Checks';
       this.displayFloors(this);
     }
   }, {
@@ -2415,8 +2509,8 @@ var Record = /*#__PURE__*/function () {
   }, {
     key: "displayRooms",
     value: function displayRooms() {
-      var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-      if (key) this.currentFloor = this.record.checks.floors[key];
+      var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      if (index) this.currentFloor = parseInt(index);
       this.currentLevel = 'rooms';
       this.currentRoom = null;
       var rooms = new _Level_Rooms__WEBPACK_IMPORTED_MODULE_3__.Rooms(this);
@@ -2424,20 +2518,37 @@ var Record = /*#__PURE__*/function () {
     }
   }, {
     key: "displayChecks",
-    value: function displayChecks(key) {
-      this.currentRoom = this.currentFloor.rooms[key];
+    value: function displayChecks(index) {
+      this.currentRoom = parseInt(index);
       this.currentLevel = 'checks';
       var checks = new _Level_Checks__WEBPACK_IMPORTED_MODULE_4__.Checks(this);
       checks.display();
-    }
+    } //Display new set of tiles
+
   }, {
-    key: "clear",
-    value: function clear() {
+    key: "reset",
+    value: function reset() {
+      //Empty tiles
       var parent = document.querySelector('#recordTileWrapper');
 
       while (parent.firstChild) {
         parent.firstChild.remove();
-      }
+      } //Reset back button
+
+
+      document.querySelector('#backButtonWrapper').innerHTML = '<button id="backButton"><i class="fa fa-arrow-left"></i></button>';
+    } //Remove record
+
+  }, {
+    key: "clear",
+    value: function clear() {
+      this.reset();
+      document.querySelector('#startButton').classList.remove('hide');
+      document.querySelector('#finishButton').classList.add('hide');
+      document.querySelector('#backButtonWrapper').innerHTML = '';
+      document.querySelector('#welcome').classList.remove('none');
+      document.querySelector('#recordTileWrapper').classList.add('none');
+      document.querySelector('#title').innerText = '';
     }
   }]);
 
@@ -2458,6 +2569,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "recordFindUrl": () => (/* binding */ recordFindUrl),
 /* harmony export */   "recordResetUrl": () => (/* binding */ recordResetUrl),
 /* harmony export */   "recordCompleteUrl": () => (/* binding */ recordCompleteUrl),
+/* harmony export */   "recordSubmitUrl": () => (/* binding */ recordSubmitUrl),
 /* harmony export */   "floorResetUrl": () => (/* binding */ floorResetUrl),
 /* harmony export */   "floorCompleteUrl": () => (/* binding */ floorCompleteUrl),
 /* harmony export */   "roomResetUrl": () => (/* binding */ roomResetUrl),
@@ -2468,6 +2580,7 @@ __webpack_require__.r(__webpack_exports__);
 var recordFindUrl = '/api/record/find';
 var recordResetUrl = '/api/record/{record}/reset';
 var recordCompleteUrl = '/api/record/{record}/complete';
+var recordSubmitUrl = '/api/record/{record}/submit';
 var floorResetUrl = '/api/record/{record}/floor/{id}/reset';
 var floorCompleteUrl = '/api/record/{record}/floor/{id}/complete';
 var roomResetUrl = '/api/record/{record}/room/{id}/reset';
@@ -2498,30 +2611,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
-console.log("v2");
-
 if (document.querySelector('#recordTileWrapper')) {
-  _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+  document.querySelector('#startButton').onclick = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
     var record;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             record = new _Record_Record__WEBPACK_IMPORTED_MODULE_1__.Record();
-            console.log(record);
-            _context.next = 4;
+            _context.next = 3;
             return record.find();
 
-          case 4:
+          case 3:
             record.display();
 
-          case 5:
+          case 4:
           case "end":
             return _context.stop();
         }
       }
     }, _callee);
-  }))();
+  }));
 }
 
 /***/ }),

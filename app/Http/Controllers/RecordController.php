@@ -32,6 +32,7 @@ class RecordController extends Controller
                 $recordChecks[] = $recordCheck;
             };
             $record->checks()->createMany($recordChecks);
+            $record = Record::where('status', 'Pending')->firstOrFail();
             return response()->json($record->toArray());
         }
     }
